@@ -5,9 +5,9 @@ from django.db import  models
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = 'qvki xkuc hcfn wvjv'
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['.vercel.app', '127.0.0.1']
+ALLOWED_HOSTS = ['sptxtl.vercel.app', '127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.admin',

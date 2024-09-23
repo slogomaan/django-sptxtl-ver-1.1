@@ -37,7 +37,7 @@
 
         form {
             background-color: #97b9a2;
-            padding: 70px;
+            padding: 60px;
             border-radius: 18px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             width: 1200px;
@@ -53,38 +53,38 @@
         }
 
         select, input[type="file"], textarea, input[type="text"] {
-            width: 14%;
+            width: 9.6vw;
             padding: 5px;
+            border: none;
             border-radius: 12px;
             margin-bottom: 20px;
             font-size: 18px;
         }
 
         button {
-            background-color: #212421;
+            background-color: #303730;
             color: #ecebeb;
-            padding: 14px 20px;
+            padding: 14px 0px;
             border: none;
-            border-radius: 19px;
+            border-radius: 22px;
             cursor: pointer;
-            display: block;
-            width: 14.5%;
-            font-size: 18px;
+            width:6.8vw;
+            font-size: 1.73vh;
+        }
+        
+        input[type="file"]::file-selector-button:hover{
+            background-color: #222;
         }
 
         button:hover {
             background-color: #222;
         }
-
+        
         .error-message {
             color: rgb(255, 93, 44);
             font-weight: bold;
             text-align: center;
             margin-top: 10px;
-        }
-
-        .result-container {
-            margin-top: 20px;
         }
 
         .result-container label {
@@ -93,10 +93,10 @@
 
         a {
             display: block;
-            text-align:right;
+            text-align:left;
             margin-top: 20px;
             text-decoration:double;
-            color: #343232;
+            color: #303730;
         }
 
         a:hover {
@@ -104,12 +104,34 @@
         }
 
         input[type="file"]::file-selector-button {
-            background-color: #212421;
+            background-color: #303730;
             color: #ecebeb;
-            padding: 10px 20px;
+            padding: 14px 20px;
             border: none;
-            border-radius: 5px;
+            border-radius: 25px;
             cursor: pointer;
+            margin-right: 20px;
+        }
+    
+        .parent-form-results{
+            display: flex;
+            flex-direction: row;
+            /* background-color: blueviolet; */
+            
+        }
+        .form-details{
+            /* background-color: aqua; */
+            display: flex;
+            flex-direction: column;
+
+        }
+        .result-container{
+            display: flex;
+            flex-direction: column;
+        }
+        textarea{
+            resize: none;
+           
         }
         
     </style>
@@ -118,33 +140,40 @@
     <h1 style="margin-left: 40px; font-size: 110px;">Aud<span style="color: rgb(255, 206, 45);">ᴉ</span>o</h1>
    <h2 style="margin-left: 40px;font-size: 30px;">personalized <span style="color: rgb(255, 206, 45);">audio</span> translation tool.</h2> 
     <form id="upload-form" method="POST" action="{% url 'transcribe_audio' %}" enctype="multipart/form-data">
-        {% csrf_token %}
-        <label  style="margin-left: 6px; font-size: 22px; color: rgb(45, 45, 45);" for="audio-file">select audio.</label>
-        <input type="file" name="audio_file" id="audio-file" required style="width: max-content; ">
         
-        <label  style="margin-left: 6px; font-size: 22px; color: rgb(45, 45, 45);" for="language-select">choose translation.</label>
-        <select name="language" id="language-select">
-            {% for language in languages %}
-                <option value="{{ language }}">{{ language }}</option>
-            {% endfor %}
-        </select>
-
-        <button type="submit">Transcribe</button>
-        {% if transcribed_text %}
-        <div class="result-container">
-            <label style="margin-left: 6px; font-size: 22px; color: rgb(45, 45, 45);" for="transcribed-text">transcription</label>
-            <textarea id="transcribed-text"  readonly style="width: 45vw; height:max-content; ;overflow-y:scroll" >{{ transcribed_text }}</textarea>
-
-            <label style="margin-left: 6px; font-size: 22px; color: rgb(45, 45, 45);" for="translated-text">translation</label>
-            <textarea id="translated-text"  readonly style="width: 45vw; height: max-content ; ;overflow-y:scroll">{{ translated_text }}</textarea>
-
-            <label style="margin-left: 6px; font-size: 22px; color: rgb(45, 45, 45);" for="email-receivers">send via email</label>
-            <input type="text" name="email_receivers" id="email-receivers" placeholder="Enter email addresses separated by commas for multiple recipients." style="width: 542px;">
+        <div class="parent-form-results">
+            <div class="form-details">
+                {% csrf_token %}
+                <label  style="margin-left: 6px; font-size: 23.5px; color: rgb(45, 45, 45);" for="audio-file">select audio file.</label>
+            <input type="file" name="audio_file" id="audio-file" required style="width: max-content; ">
             
-            <button id="send-email-button">Send Email</button>
+            <label  style="margin-left: 2px; font-size: 22px; color: rgb(45, 45, 45);" for="language-select">choose translation.</label>
+            <select name="language" id="language-select">
+                {% for language in languages %}
+                    <option value="{{ language }}">{{ language }}</option>
+                {% endfor %}
+            </select>
+    
+            <button type="submit">Transcribe</button>
             
-            <a style="font-size: 18px; color: rgb(45, 45, 45);" href="{% url 'index' %}">Return to Home Page</a>
+            {% if transcribed_text %}
+            </div>
+            
+            <div class="result-container">
+                <label style="margin-left: 6px; font-size: 22px; color: rgb(45, 45, 45);" for="transcribed-text">transcription</label>
+                <textarea id="transcribed-text"  readonly style="width: 45vw ;overflow-y:scroll" >{{ transcribed_text }}</textarea>
+    
+                <label style="margin-left: 6px; font-size: 22px; color: rgb(45, 45, 45);" for="translated-text">translation</label>
+                <textarea id="translated-text"  readonly style="width: 45vw ;overflow-y:scroll">{{ translated_text }}</textarea>
+    
+                <label style="margin-left: 6px; font-size: 22px; color: rgb(45, 45, 45);" for="email-receivers">send via email</label>
+                <input type="text" name="email_receivers" id="email-receivers" placeholder="enter email addresses separated by commas for multiple recipients." style="width: 542px;">
+                
+                <button id="send-email-button">Send Email</button>
+            </div>
+            
         </div>
+        <a style="font-size: 18px; color: rgb(45, 45, 45);" href="{% url 'index' %}">Return to Home Page</a>
         {% endif %}
     </form>
 
@@ -181,14 +210,31 @@
            });
        }
 
-      //Changes the text area for transcribed and translated text 
-  const textarea1 = document.getElementById('translated-text');
-  textarea1.style.height = 'auto'; // Reset the height to auto
-  textarea1.style.height = textarea1.scrollHeight + 'px'; // Set height based on content
+    //Changes the text area for transcribed and translated text 
+    const textarea1 = document.getElementById('translated-text');
+    textarea1.style.height = 'auto'; // Reset the height to auto
+    textarea1.style.height = textarea1.scrollHeight + 'px'; // Set height based on content
+    textarea1.style.backgroundColor = '#e8e8e8'; // Change background color
+    textarea1.style.color = '#343934'; // Change text color
+    textarea1.style.fontFamily = 'Segoe UI'; // Set font to Segoe UI
 
-  const textarea2 = document.getElementById('transcribed-text');
-  textarea2.style.height = 'auto'; // Reset the height to auto
-  textarea2.style.height = textarea2.scrollHeight + 'px'; // Set height based on content
+
+    const textarea2 = document.getElementById('transcribed-text');
+    textarea2.style.height = 'auto'; // Reset the height to auto
+    textarea2.style.height = textarea2.scrollHeight + 'px'; // Set height based on content
+    textarea2.style.backgroundColor = '#e8e8e8'; // Change background color
+    textarea2.style.color = '#343934'; // Change text color
+    textarea2.style.fontFamily = 'Segoe UI'; // Set font to Segoe UI
+
+
+    const languageSelect = document.getElementById('language-select');
+    languageSelect.style.backgroundColor = '#e8e8e8';
+    languageSelect.style.color = '#303730';
+
+
+    const emailReceivers = document.getElementById('email-receivers');
+    emailReceivers.style.backgroundColor = '#e8e8e8';
+    emailReceivers.style.color = '#303730';
 
 
 

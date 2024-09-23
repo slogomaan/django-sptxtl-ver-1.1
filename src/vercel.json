@@ -1,13 +1,14 @@
 {
+    "version":2,
     "builds": [{
-        "src": "sptxtl/wsgi.py",
+        "src": "django-sptxtl-ver-1.1/wsgi.py",
         "use": "@vercel/python",
         "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
     }],
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "sptxtl/wsgi.py"
+            "dest": "django-sptxtl-ver-1.1/wsgi.py"
         }
     ]
 }
